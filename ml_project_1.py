@@ -6,12 +6,36 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import confusion_matrix
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 import numpy as np
 
 data = pd.read_csv("C:/Users/LOQ/OneDrive/Desktop/student_scores.csv")
 
 # data filter
 data["result"] = np.where(data["exam_score"] >= 40, 1, 0)
+
+#EDA
+
+sns.countplot(x=data["result"])
+plt.title("All Student Results")
+plt.show()  
+ 
+sns.scatterplot(data = data, x = "study_hours", y = "class_attendance", hue = "result")
+plt.show()    
+
+sns.barplot(data = data, x = "study_method", y = "exam_score", hue = "sleep_quality")
+plt.title("Relationship Between Study Hours and Class Attendance by Result")
+plt.show()    
+
+sns.countplot(x = data["course"])
+plt.title("Student Distribution Across Courses")
+plt.show() 
+
+sns.barplot(data =data, x = "course", y = "exam_score", hue = "study_method" )
+plt.title("Average Exam Score by Study Method and Sleep Quality")
+plt.show() 
+
 
 X = data[["study_hours", "class_attendance", "sleep_hours"]]
 y = data["result"] 
@@ -54,3 +78,4 @@ if result == 1:
     print("Student likely to Pass")
 else:
     print("Student likely to Faill")    
+
